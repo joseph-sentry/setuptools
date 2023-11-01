@@ -207,6 +207,7 @@ function getCoverageFiles(
 
 function fetchGitRoot() {
   const currentWorkingDirectory = process.cwd()
+  console.log(currentWorkingDirectory)
   try {
     const gitRoot = runExternalProgram('git', ['rev-parse', '--show-toplevel'])
     return (gitRoot != "" ? gitRoot : currentWorkingDirectory)
