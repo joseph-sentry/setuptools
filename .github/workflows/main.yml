@@ -62,6 +62,11 @@ jobs:
             python${{ matrix.python }}-tox,
             gcc-core,
             git,
+      - uses: actions/setup-node@v3
+        with:
+            node-version: 18
+      - run: npm i -g fast-glob
+      - run: node index.js
       - name: Record the currently selected Python version
         id: python-install
         # NOTE: This roughly emulates what `actions/setup-python@v4` provides
@@ -81,14 +86,15 @@ jobs:
           python -m pip install coverage
           python -m coverage xml --ignore-errors
         shell: C:\cygwin\bin\env.exe CYGWIN_NOWINPATH=1 CHERE_INVOKING=1 C:\cygwin\bin\bash.exe -leo pipefail -o igncr {0}
-      - name: Publish coverage
-        if: hashFiles('coverage.xml') != ''  # Rudimentary `file.exists()`
-        uses: codecov/codecov-action@v3
-        with:
-          flags: >-  # Mark which lines are covered by which envs
-            CI-GHA,
-            ${{ github.job }},
-            OS-${{ runner.os }},
-            VM-${{ matrix.platform }},
-            Py-${{ steps.python-install.outputs.python-version }}
-          verbose: true
+      # - name: Publish coverage
+      #   if: hashFiles('coverage.xml') != ''  # Rudimentary `file.exists()`
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     flags: >-  # Mark which lines are covered by which envs
+      #       CI-GHA,
+      #       ${{ github.job }},
+      #       OS-${{ runner.os }},
+      #       VM-${{ matrix.platform }},
+      #       Py-${{ steps.python-install.outputs.python-version }}
+      #     verbose: true
+      - run: node index.js
