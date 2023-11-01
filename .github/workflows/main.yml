@@ -65,7 +65,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
             node-version: 18
-      - run: npm i -g fast-glob
+      - run: npm install
       - run: node index.js
       - name: Record the currently selected Python version
         id: python-install
