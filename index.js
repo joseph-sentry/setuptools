@@ -1,8 +1,8 @@
 const glob = require('fast-glob')
 
-const globstar = (pattern: string) => `**/${pattern}`
+const globstar = (pattern) => `**/${pattern}`
  
-function manualBlocklist(): string[] {
+function manualBlocklist() {
   // TODO: honor the .gitignore file instead of a hard-coded list
   return [
     '.DS_Store',
@@ -18,7 +18,7 @@ function manualBlocklist(): string[] {
   ]
 }
 
-function globBlocklist(): string[] {
+function globBlocklist(){
   // TODO: honor the .gitignore file instead of a hard-coded list
   return [
     '__pycache__',
@@ -156,17 +156,17 @@ coverageFilePatterns = [
   'test_cov.xml',
 ]
 
-function getBlocklist(): string[] {
+function getBlocklist(){
   return [...manualBlocklist(), ...globBlocklist()].map(globstar)
 }
 
 function getCoverageFiles(
-  projectRoot: string,
-  followSymbolicLinks: boolean = true,
-): string[] {
-  const globstar = (pattern: string) => `**/${pattern}`
+  projectRoot,
+  followSymbolicLinks= true,
+) {
+  const globstar = (pattern) => `**/${pattern}`
 
-  return glob(coverageFilePatterns.map((pattern: string) => {
+  return glob(coverageFilePatterns.map((pattern) => {
     const parts = []
     parts.push(globstar(pattern))
 
@@ -180,7 +180,7 @@ function getCoverageFiles(
   })
 }
 
-function fetchGitRoot(): string {
+function fetchGitRoot() {
   const currentWorkingDirectory = process.cwd()
   try {
     const gitRoot = runExternalProgram('git', ['rev-parse', '--show-toplevel'])
