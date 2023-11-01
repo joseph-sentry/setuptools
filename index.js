@@ -1,5 +1,6 @@
 const glob = require('fast-glob')
 const childprocess = require('child_process')
+const os = require('node:os')
 
 const globstar = (pattern) => `**/${pattern}`
 
@@ -217,4 +218,6 @@ function fetchGitRoot() {
   }
 }
 
+
 coverageFiles = getCoverageFiles(fetchGitRoot())
+console.log(os.platform())
