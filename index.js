@@ -2,7 +2,7 @@ const glob = require('fast-glob')
 
 const globstar = (pattern) => `**/${pattern}`
 
-const EMPTY_STRING = '' as const
+const EMPTY_STRING = ''
 
  
 function manualBlocklist() {
