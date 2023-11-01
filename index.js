@@ -1,10 +1,28 @@
 const glob = require('fast-glob')
+const childprocess = require('child_process')
 
 const globstar = (pattern) => `**/${pattern}`
 
 const EMPTY_STRING = ''
 
- 
+const SPAWNPROCESSBUFFERSIZE = 1_048_576 * 100
+
+function runExternalProgram(
+  programName,
+  optionalArguments = [],
+) {
+  const result = childprocess.spawnSync(
+    programName,
+    optionalArguments,
+    { maxBuffer: SPAWNPROCESSBUFFERSIZE },
+  )
+  if (result.error) {
+    throw new Error(`Error running external program: ${result.error}`)
+  }
+  return result.stdout.toString().trim()
+}
+
+
 function manualBlocklist() {
   // TODO: honor the .gitignore file instead of a hard-coded list
   return [
@@ -21,7 +39,7 @@ function manualBlocklist() {
   ]
 }
 
-function globBlocklist(){
+function globBlocklist() {
   // TODO: honor the .gitignore file instead of a hard-coded list
   return [
     '__pycache__',
@@ -159,13 +177,13 @@ coverageFilePatterns = [
   'test_cov.xml',
 ]
 
-function getBlocklist(){
+function getBlocklist() {
   return [...manualBlocklist(), ...globBlocklist()].map(globstar)
 }
 
 function getCoverageFiles(
   projectRoot,
-  followSymbolicLinks= true,
+  followSymbolicLinks = true,
 ) {
   const globstar = (pattern) => `**/${pattern}`
 
