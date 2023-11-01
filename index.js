@@ -187,6 +187,8 @@ function getCoverageFiles(
 ) {
   const globstar = (pattern) => `**/${pattern}`
 
+  console.log(projectRoot)
+
   return glob(coverageFilePatterns.map((pattern) => {
     const parts = []
     parts.push(globstar(pattern))
@@ -198,6 +200,8 @@ function getCoverageFiles(
     followSymbolicLinks,
     ignore: getBlocklist(),
     suppressErrors: true,
+  }).then((e) => {
+    console.log(e)
   })
 }
 
@@ -213,5 +217,3 @@ function fetchGitRoot() {
 }
 
 coverageFiles = getCoverageFiles(fetchGitRoot())
-
-console.log(`${coverageFiles}`)
