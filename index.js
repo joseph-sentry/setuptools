@@ -1,8 +1,8 @@
-import glob from 'fast-glob'
+const glob = require('fast-glob')
 
 const globstar = (pattern: string) => `**/${pattern}`
-
-export function manualBlocklist(): string[] {
+ 
+function manualBlocklist(): string[] {
   // TODO: honor the .gitignore file instead of a hard-coded list
   return [
     '.DS_Store',
@@ -156,7 +156,7 @@ coverageFilePatterns = [
   'test_cov.xml',
 ]
 
-export function getBlocklist(): string[] {
+function getBlocklist(): string[] {
   return [...manualBlocklist(), ...globBlocklist()].map(globstar)
 }
 
@@ -180,7 +180,7 @@ function getCoverageFiles(
   })
 }
 
-export function fetchGitRoot(): string {
+function fetchGitRoot(): string {
   const currentWorkingDirectory = process.cwd()
   try {
     const gitRoot = runExternalProgram('git', ['rev-parse', '--show-toplevel'])
