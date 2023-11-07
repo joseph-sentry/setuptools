@@ -190,20 +190,24 @@ function getCoverageFiles(
 
   console.log(projectRoot)
 
-  return glob(coverageFilePatterns.map((pattern) => {
+  mapped_patterns = coverageFilePatterns.map((pattern) => {
     const parts = []
     parts.push(globstar(pattern))
 
     return parts.join(EMPTY_STRING)
-  }), {
+  })
+
+
+  globbed_paths = glob.globSync((mapped_patterns), {
     cwd: projectRoot,
     dot: true,
     followSymbolicLinks,
     ignore: getBlocklist(),
     suppressErrors: true,
-  }).then((e) => {
-    console.log(e)
   })
+  console.log(globbed_paths);
+
+  return globbed_paths;
 }
 
 function fetchGitRoot() {
@@ -221,3 +225,4 @@ function fetchGitRoot() {
 
 coverageFiles = getCoverageFiles(fetchGitRoot())
 console.log(os.platform())
+console.log(os.release())
